@@ -1,8 +1,19 @@
+<div align="center">
+
 # Project Selfcheck
 
-> 提交前自查自纠 Skill — 支持所有 AI Agent，双模式交互
+**提交前自查自纠 · Pre-commit Self-Review Skill for AI Agents**
 
-[English](#english) | [中文](#chinese)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Agents](https://img.shields.io/badge/Agents-All-blue)]()
+
+*一个兼容所有 AI 编程 Agent 的提交前审查技能，四阶段分步确认，双模式交互。*
+
+</div>
+
+---
+
+Language: [English](#english) | [中文文档](#中文文档)
 
 ---
 
@@ -10,83 +21,63 @@
 
 ## English
 
-### What is Project Selfcheck?
+### What is it?
 
-A pre-commit self-review skill for AI coding agents. It guides the agent through a structured four-phase review process before every commit:
+Project Selfcheck is a skill that guides your AI coding agent through a structured pre-commit review. Instead of blindly committing, your agent will walk through four phases, pausing for your confirmation at each step.
 
-1. **Code Review** — Requirements compliance, logic bugs, edge cases, regression
-2. **Version Decision** — Auto-suggest version bump based on SemVer + build number
-3. **Frontend Sync** — Identify files that need version number updates
-4. **Changelog** — Update release notes and update history
+### How it works
+
+```
+Phase 1: Code Review
+  → Found issues → Asks you: "Fix these?"
+  → You confirm  → Moves to Phase 2
+
+Phase 2: Version Decision
+  → Suggests vX.Y.Z.B → Asks you: "OK?"
+  → You confirm       → Moves to Phase 3
+
+Phase 3: Frontend Sync
+  → Finds files to update → Asks you: "Update these?"
+  → You confirm           → Moves to Phase 4
+
+Phase 4: Changelog
+  → Suggests changelog → Asks you: "Update?"
+  → You confirm        → Done
+```
 
 ### Supported Agents
 
-| Agent | AskUserQuestion | Multi-turn Text | Notes |
-|-------|:---:|:---:|-------|
-| **TRAE** | ✅ | ✅ | Full support, native AskUserQuestion |
-| **Claude Code** | ✅ | ✅ | Full support |
-| **Cursor** | ✅ | ✅ | Full support |
-| **GitHub Copilot** | ❌ | ✅ | Falls back to multi-turn text |
-| **Cline** | ❌ | ✅ | Falls back to multi-turn text |
-| **Aider** | ❌ | ✅ | Falls back to multi-turn text |
-| **Any Agent** | ✅/❌ | ✅ | Universal multi-turn fallback |
+| Agent | Structured Q&A | Multi-turn Fallback |
+|-------|:---:|:---:|
+| TRAE | ✅ | ✅ |
+| Claude Code | ✅ | ✅ |
+| Cursor | ✅ | ✅ |
+| GitHub Copilot | ❌ | ✅ |
+| Cline / Roo Code | ❌ | ✅ |
+| Aider | ❌ | ✅ |
+| Windsurf | ❌ | ✅ |
+| Augment | ❌ | ✅ |
 
-> **Dual-Mode Interaction**: The skill auto-detects whether the agent supports `AskUserQuestion`. If yes, it uses structured Q&A with options. If not, it falls back to plain-text multi-turn conversation — making it compatible with **all** AI coding agents.
+> The skill auto-detects whether the agent supports `AskUserQuestion`. If yes, it uses structured Q&A. If not, it falls back to plain-text multi-turn conversation — making it compatible with **all** AI coding agents.
 
-### Features
+### Quick Start
 
-- **Four-phase review pipeline** with mandatory user confirmation between each phase
-- **Automatic version bump**: Judges X/Y/Z based on change type, B always increments
-- **Dual-mode interaction**: Structured Q&A or plain-text multi-turn, auto-detected
-- **Modular structure**: Scene routing, reference docs, reusable templates
-- **Security-first**: Hardcoded secrets, injection risks, permission checks
-- **UI review**: Pixel-level layout, color, typography, and interaction checks
+**Method 1: Let your agent install it for you**
 
-### Installation
-
-**Method 1: Let your Agent do it (recommended)**
-
-Copy the repo URL and paste this into your Agent:
+Paste this into your agent:
 
 ```
-Clone the project-selfcheck repo from GitHub, then copy the entire project-selfcheck folder into my skills directory. After that, tell me it is ready to use.
+Clone the project-selfcheck repo from GitHub, then copy the entire
+project-selfcheck folder into my skills directory. Tell me when done.
 ```
 
-Or even simpler:
+**Method 2: Manual**
 
-```
-Install the project-selfcheck skill from <repo-url> for me.
-```
-
-Your Agent will clone the repo, find the correct skills directory, copy the files, and confirm everything is set up. No manual steps needed.
-
-**Method 2: Manual install**
-
-Copy the entire `project-selfcheck` folder into your agent is skills directory:
-
-```
-<skills-root>/
-└── project-selfcheck/
-    ├── SKILL.md
-    ├── scenes/
-    │   ├── pre-commit.md
-    │   ├── code-review.md
-    │   ├── ui-review.md
-    │   └── security-audit.md
-    ├── references/
-    │   ├── core-constraints.md
-    │   ├── review-checklist.md
-    │   ├── version-decision.md
-    │   └── reporting-standards.md
-    └── templates/
-        ├── manifest.json
-        ├── review-report/
-        └── version-bump/
-```
+Copy the `project-selfcheck/` folder into your agent is skills directory.
 
 ### Usage
 
-Trigger the skill with any of these commands:
+Just say any of these to your agent:
 
 ```
 /project-selfcheck
@@ -96,85 +87,100 @@ code review
 安全检查
 ```
 
-The agent will then run through the four-phase pipeline, pausing for your confirmation at each step.
+Your agent will start the four-phase pipeline automatically.
+
+### Features
+
+- **Four-phase pipeline** — Code review, version bump, frontend sync, changelog
+- **SemVer auto-bump** — Judges X/Y/Z from change type, B always increments
+- **Dual-mode interaction** — Works with or without `AskUserQuestion`
+- **Security audit** — Hardcoded secrets, injection risks, permission checks
+- **UI review** — Pixel-level layout, color, typography, interaction states
+- **Modular structure** — Scene routing, reference docs, reusable templates
+
+### File Structure
+
+```
+project-selfcheck/
+├── SKILL.md                    # Entry point + scene router
+├── scenes/
+│   ├── pre-commit.md           # Full pre-commit pipeline
+│   ├── code-review.md          # Code review (security, logic, regression)
+│   ├── ui-review.md            # UI/UX pixel-level check
+│   └── security-audit.md       # Security audit (secrets, injection, auth)
+├── references/
+│   ├── core-constraints.md     # Dual-mode interaction protocol
+│   ├── review-checklist.md     # Detailed review checklist
+│   ├── version-decision.md     # Version bump rules + examples
+│   └── reporting-standards.md  # Reporting guidelines
+└── templates/
+    ├── review-report/          # Review report template + fixture
+    └── version-bump/           # Version bump template + fixture
+```
 
 ---
 
-<a id="chinese"></a>
+<a id="中文文档"></a>
 
-## 中文
+## 中文文档
 
-### 什么是 Project Selfcheck？
+### 这是什么？
 
-一个面向 AI 编程 Agent 的提交前自查自纠技能。它引导 Agent 在每次提交前完成四个阶段的结构化审查：
+Project Selfcheck 是一个让 AI 编程 Agent 在提交代码前进行结构化自查的技能。Agent 不会直接提交，而是经过四个阶段、每阶段停下来等你确认，确保没有遗漏。
 
-1. **代码审查** — 需求符合度、逻辑 Bug、边界条件、回归风险
-2. **版本号决策** — 基于 SemVer 自动判断版本号变更
-3. **前端同步** — 识别需要同步版本号的文件
-4. **更新日志** — 更新发布说明和历史记录
+### 工作流程
+
+```
+阶段一：代码审查
+  → 发现问题 → 问你："需要修复吗？"
+  → 你确认   → 进入阶段二
+
+阶段二：版本号决策
+  → 建议 vX.Y.Z.B → 问你："可以吗？"
+  → 你确认       → 进入阶段三
+
+阶段三：前端同步
+  → 找到需同步的文件 → 问你："更新这些？"
+  → 你确认         → 进入阶段四
+
+阶段四：更新日志
+  → 建议更新内容 → 问你："更新吗？"
+  → 你确认      → 完成
+```
 
 ### 适配 Agent
 
-| Agent | 结构化提问 | 多轮对话 | 说明 |
-|-------|:---:|:---:|-------|
-| **TRAE** | ✅ | ✅ | 完整支持，原生 AskUserQuestion |
-| **Claude Code** | ✅ | ✅ | 完整支持 |
-| **Cursor** | ✅ | ✅ | 完整支持 |
-| **GitHub Copilot** | ❌ | ✅ | 降级为多轮文本对话 |
-| **Cline** | ❌ | ✅ | 降级为多轮文本对话 |
-| **Aider** | ❌ | ✅ | 降级为多轮文本对话 |
-| **任意 Agent** | ✅/❌ | ✅ | 通用多轮对话兜底 |
+| Agent | 结构化 Q&A | 多轮对话降级 |
+|-------|:---:|:---:|
+| TRAE | ✅ | ✅ |
+| Claude Code | ✅ | ✅ |
+| Cursor | ✅ | ✅ |
+| GitHub Copilot | ❌ | ✅ |
+| Cline / Roo Code | ❌ | ✅ |
+| Aider | ❌ | ✅ |
+| Windsurf | ❌ | ✅ |
+| Augment | ❌ | ✅ |
 
-> **双模式交互**：Skill 自动检测 Agent 是否支持 `AskUserQuestion` 工具。支持时使用结构化 Q&A 带选项，不支持时降级为纯文本多轮对话 — 兼容**所有** AI 编程 Agent。
+> Skill 会自动检测 Agent 是否支持 `AskUserQuestion`。支持就用结构化 Q&A，不支持就降级为纯文本多轮对话，兼容**所有** AI 编程 Agent。
 
-### 特性
+### 快速开始
 
-- **四阶段审查流水线**，每阶段之间强制等待用户确认
-- **自动版本号变更**：根据变更类型判断 X/Y/Z，B 号始终递增
-- **双模式交互**：结构化 Q&A 或纯文本多轮对话，自动检测切换
-- **模块化结构**：场景路由、参考文档、可复用模板
-- **安全优先**：硬编码密钥、注入风险、权限校验
-- **UI 还原度检查**：像素级布局、颜色、排版、交互状态
+**方式一：让 Agent 帮你装**
 
-### 安装
-
-**方式一：让 Agent 帮你装（推荐）**
-
-把仓库地址发给你的 Agent，一句话搞定：
+把这句话发给你的 Agent：
 
 ```
-把 project-selfcheck 仓库从 GitHub 克隆下来，然后将整个 project-selfcheck 文件夹复制到我的 skills 目录里，装好后告诉我一声。
+把 /Motuo24/project-selfcheck 仓库从 GitHub 克隆下来，将整个 project-selfcheck
+文件夹复制到我的 skills 目录里，装好后告诉我一声。
 ```
-
-你的 Agent 会自动完成克隆 → 定位目录 → 复制文件 → 确认安装，全程无需手动操作。
 
 **方式二：手动安装**
 
-将整个 `project-selfcheck` 文件夹复制到你的 Agent 技能目录：
-
-```
-<skills-root>/
-└── project-selfcheck/
-    ├── SKILL.md
-    ├── scenes/
-    │   ├── pre-commit.md
-    │   ├── code-review.md
-    │   ├── ui-review.md
-    │   └── security-audit.md
-    ├── references/
-    │   ├── core-constraints.md
-    │   ├── review-checklist.md
-    │   ├── version-decision.md
-    │   └── reporting-standards.md
-    └── templates/
-        ├── manifest.json
-        ├── review-report/
-        └── version-bump/
-```
+将 `project-selfcheck/` 文件夹复制到你的 Agent 技能目录。
 
 ### 使用方式
 
-通过以下任一指令触发：
+对你的 Agent 说以下任意一句：
 
 ```
 /project-selfcheck
@@ -184,10 +190,37 @@ code review
 安全检查
 ```
 
-Agent 将按四阶段流水线执行，每个阶段结束后暂停等待你确认。
+Agent 会自动启动四阶段审查流水线。
+
+### 特性
+
+- **四阶段流水线** — 代码审查、版本号变更、前端同步、更新日志
+- **SemVer 自动变更** — 根据变更类型判断 X/Y/Z，B 号始终递增
+- **双模式交互** — 有 `AskUserQuestion` 用结构化 Q&A，没有就多轮对话
+- **安全审计** — 硬编码密钥、注入风险、权限校验
+- **UI 还原度** — 像素级布局、颜色、排版、交互状态
+- **模块化设计** — 场景路由、参考文档、可复用模板
+
+### 文件结构
+
+```
+project-selfcheck/
+├── SKILL.md                    # 入口 + 场景路由
+├── scenes/
+│   ├── pre-commit.md           # 提交前全面自查
+│   ├── code-review.md          # 代码审查（安全、逻辑、回归）
+│   ├── ui-review.md            # UI/UX 像素级检查
+│   └── security-audit.md       # 安全审计（密钥、注入、认证）
+├── references/
+│   ├── core-constraints.md     # 双模式交互协议
+│   ├── review-checklist.md     # 详细审查清单
+│   ├── version-decision.md     # 版本号决策规则 + 示例
+│   └── reporting-standards.md  # 汇报规范
+└── templates/
+    ├── review-report/          # 审查报告模板 + 示例数据
+    └── version-bump/           # 版本变更模板 + 示例数据
+```
 
 ---
 
-## License
-
-MIT
+<p align="center">MIT License · Made with ❤️</p>
