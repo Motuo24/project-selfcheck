@@ -1,0 +1,18 @@
+{
+  "templates": [
+    {
+      "id": "review-report",
+      "name": "审查报告",
+      "description": "代码审查/安全审计/UI审查的标准化报告模板",
+      "status": "ready",
+      "scenes": ["pre-commit", "code-review", "ui-review", "security-audit"]
+    },
+    {
+      "id": "version-bump",
+      "name": "版本号变更",
+      "description": "版本号决策与同步的标准化模板",
+      "status": "ready",
+      "scenes": ["pre-commit"]
+    }
+  ]
+}

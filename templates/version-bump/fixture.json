@@ -1,0 +1,11 @@
+{
+  "current_version": "v1.2.3.41",
+  "change_type": "fix",
+  "suggested_version": "v1.2.3.42",
+  "build_number_source": "git",
+  "files_to_sync": [
+    "package.json",
+    "app/build.gradle"
+  ],
+  "changelog_entry": "v1.2.3 (Build 42) - 修复登录页 Token 刷新逻辑，优化错误提示"
+}

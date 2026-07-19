@@ -1,0 +1,35 @@
+{
+  "conclusion": "有条件通过",
+  "summary": "代码整体质量良好，发现 1 个警告和 2 个建议，无严重问题",
+  "issues": [
+    {
+      "severity": "警告",
+      "file": "src/utils/api.ts",
+      "line": "42-45",
+      "description": "fetch 调用未处理网络异常",
+      "risk": "网络断开时可能导致未捕获的 Promise rejection",
+      "suggestion": "添加 try/catch 包裹，并在 catch 中返回友好的错误提示"
+    },
+    {
+      "severity": "建议",
+      "file": "src/components/Header.tsx",
+      "line": "18",
+      "description": "硬编码颜色值 #333",
+      "risk": "切换暗色模式时文字不可见",
+      "suggestion": "使用 CSS 变量 var(--text-primary) 替代"
+    },
+    {
+      "severity": "建议",
+      "file": "src/pages/home.tsx",
+      "line": "30",
+      "description": "useEffect 缺少依赖项清理",
+      "risk": "组件卸载后仍可能执行状态更新",
+      "suggestion": "添加 cleanup 函数取消订阅"
+    }
+  ],
+  "version": {
+    "current": "v1.2.3.41",
+    "suggested": "v1.2.3.42"
+  },
+  "change_summary": "修复登录页样式问题，优化 API 错误处理"
+}
